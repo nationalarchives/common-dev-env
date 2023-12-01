@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      - DATABASE_HOST=${POSTGRES_DATABASE_HOST}
+      - DATABASE_NAME=${POSTGRES_DATABASE_NAME}
+      - DATABASE_USER=${POSTGRES_DATABASE_USER}
