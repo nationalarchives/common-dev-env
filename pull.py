@@ -6,7 +6,7 @@ from lib import get_service_keys
 
 def pull():
     for name in get_service_keys():
-        subprocess.run(["git", "-C", "%s/%s" % (applications_directory, name), "pull"])
+        subprocess.run(["git", "-C", f"{applications_directory}/{name}", "pull"])
 
 
 if __name__ == "__main__":

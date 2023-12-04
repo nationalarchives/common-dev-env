@@ -18,7 +18,7 @@ def start_service(name):
     commands = [
         "docker-compose",
         "-f",
-        "%s/%s/docker-compose.yml" % (applications_directory, name),
+        f"{applications_directory}/{name}/docker-compose.yml",
         "-p",
         docker_project_name,
         "--env-file",
@@ -29,7 +29,7 @@ def start_service(name):
             "--env-file",
             ".env",
         ]
-    application_env_file = "%s/%s/.env" % (applications_directory, name)
+    application_env_file = f"{applications_directory}/{name}/.env"
     if path.isfile(application_env_file):
         commands = commands + [
             "--env-file",
@@ -48,7 +48,7 @@ def start_commodity(name):
     commands = [
         "docker-compose",
         "-f",
-        "%s/%s/docker-compose.yml" % (commodities_directory, name),
+        f"{commodities_directory}/{name}/docker-compose.yml",
         "-p",
         docker_project_name,
         "--env-file",

@@ -33,11 +33,11 @@ def clone_config_repo(url):
 
 
 def check_config_from_repo():
-    return path.isfile("%s/config.json" % temp_directory)
+    return path.isfile(f"{temp_directory}/config.json")
 
 
 def use_config_from_repo():
-    subprocess.run(["cp", "%s/config.json" % temp_directory, "./config.json"])
+    subprocess.run(["cp", f"{temp_directory}/config.json", "./config.json"])
     remove_config_repo()
 
 
@@ -53,7 +53,7 @@ def setup_applications():
 
 
 def clone_application(name, properties):
-    clone_location = "%s/%s" % (applications_directory, name)
+    clone_location = f"{applications_directory}/{name}"
     if "repo" in properties and not path.isdir(clone_location):
         subprocess.run(
             [
