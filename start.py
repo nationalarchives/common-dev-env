@@ -1,34 +1,29 @@
-import json
 import subprocess
 from os import path
 
-from conf import (applications_directory, commodities_directory,
-                  docker_project_name)
-from lib import get_services, get_used_commodities
+from conf import applications_directory, commodities_directory
+from lib import get_services, get_used_commodities, get_project_name
 
 
 def start():
-    for name in get_services():
-        start_service(name)
+    services = get_services()
+    for name in services:
+        start_service(name, services[name]["services"])
     for name in get_used_commodities():
         start_commodity(name)
 
 
-def start_service(name):
+def start_service(name, services=[]):
     commands = [
-        "docker-compose",
+        "docker",
+        "compose",
         "-f",
         f"{applications_directory}/{name}/docker-compose.yml",
         "-p",
-        docker_project_name,
+        f"{get_project_name()}-{name}",
         "--env-file",
-        ".commodities.env",
+        ".env",
     ]
-    if path.isfile(".env"):
-        commands = commands + [
-            "--env-file",
-            ".env",
-        ]
     application_env_file = f"{applications_directory}/{name}/.env"
     if path.isfile(application_env_file):
         commands = commands + [
@@ -40,19 +35,20 @@ def start_service(name):
         "--remove-orphans",
         "--build",
         "-d",
-    ]
+    ] + services
     subprocess.run(commands)
 
 
 def start_commodity(name):
     commands = [
-        "docker-compose",
+        "docker",
+        "compose",
         "-f",
         f"{commodities_directory}/{name}/docker-compose.yml",
         "-p",
-        docker_project_name,
+        f"{get_project_name()}-{name.split(':')[0]}",
         "--env-file",
-        ".commodities.env",
+        ".env",
         "up",
         "--remove-orphans",
         "--build",

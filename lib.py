@@ -20,20 +20,23 @@ def commodities():
 
 
 def get_used_commodities():
-    get_config()
     return [
         commodity
-        for commodity, properties in get_config().items()
-        if commodity in commodities() and properties["enabled"] == "true"
+        for commodity, properties in get_config()['commodities'].items()
+        if commodity in commodities() and properties.get("enabled") != False
     ]
 
 
 def get_services():
     services = {}
-    for name, properties in get_config().items():
+    for name, properties in get_config()['services'].items():
         if name not in commodities():
             services[name] = properties
     return services
+
+
+def get_project_name():
+    return get_config()['name']
 
 
 def get_service_keys():

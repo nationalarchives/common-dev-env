@@ -15,6 +15,8 @@ def init():
             print("No config.json found in repository. Exiting.")
             exit()
         use_config_from_repo()
+    if not path.isfile(".env"):
+        subprocess.run(["cp", ".example.env", ".env"])
     setup_applications()
     start()
 
@@ -49,7 +51,9 @@ def setup_applications():
     if not path.isdir(applications_directory):
         mkdir(applications_directory)
     for name, properties in get_services().items():
+        print(f"Setting up {name}...")
         clone_application(name, properties)
+
 
 
 def clone_application(name, properties):
